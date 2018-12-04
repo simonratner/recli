@@ -57,11 +57,15 @@ exports.recli = function() {
       if (opts.file === defaultConfigFile) {
         try {
           globalSettings = yaml.safeLoad(fs.readFileSync('/etc/recli.yml', 'utf8'));
-        } catch (e) {}
+        } catch (e) {
+          console.error(e)
+        }
       }
       try {
         userSettings = yaml.safeLoad(fs.readFileSync(opts.file, 'utf8'));
-      } catch (e) {}
+      } catch (e) {
+        console.error(e)
+      }
     }
     opts = misc.setupOptions(opts, globalSettings, userSettings);
 
@@ -71,7 +75,8 @@ exports.recli = function() {
       db:       opts.database,
       user:     opts.user,
       password: opts.password,
-      authKey:  opts.auth
+      authKey:  opts.auth,
+      ssl:      opts.ssl
     }, function(err, conn) {
       if (err) {
         throw err;
